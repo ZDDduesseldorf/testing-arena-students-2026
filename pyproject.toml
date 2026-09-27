@@ -1,0 +1,15 @@
+[project]
+name = "testing-arena-students-2026"
+version = "2026.1.0"
+description = "Student testing exercise for the HSD/ZDD Software Engineering course."
+requires-python = ">=3.11"
+dependencies = [
+  "pytest>=8",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
