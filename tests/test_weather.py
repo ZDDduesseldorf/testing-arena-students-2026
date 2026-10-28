@@ -97,12 +97,12 @@ def test_filter_by_temperature_regular_values_10_and_25():
         ("Bonn", 900, 25.0),
     ]
 
-    with pytest.raises(ValueError):
-        assert filter_by_temperature(measurements, 10.0, 25.0) == [
-            ("Köln", 600, 10.0),
-            ("Düsseldorf", 720, 18.5),
-            ("Bonn", 900, 25.0),
-        ]
+
+    assert filter_by_temperature(measurements, 10.0, 25.0) == [
+        ("Köln", 600, 10.0),
+        ("Düsseldorf", 720, 18.5),
+        ("Bonn", 900, 25.0),
+    ]
 
 def test_filter_by_temperature_measurement_not_complete():
     measurements = [
@@ -111,12 +111,12 @@ def test_filter_by_temperature_measurement_not_complete():
         ("Bonn", 900),
     ]
 
-
-    assert filter_by_temperature(measurements, 10.0, 25.0) == [
-        ("Köln", 600, 10.0),
-        ("Düsseldorf", 720, 18.5),
-        ("Bonn", 900, 25.0),
-    ]
+    with pytest.raises(IndexError):
+        assert filter_by_temperature(measurements, 10.0, 25.0) == [
+            ("Köln", 600, 10.0),
+            ("Düsseldorf", 720, 18.5),
+            ("Bonn", 900, 25.0),
+        ]
 
 
 def test_filter_by_temperature_regular_values_9_and_26():
