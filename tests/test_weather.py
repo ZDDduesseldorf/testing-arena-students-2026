@@ -48,6 +48,9 @@ def test_parse_time_regular_time():
     with pytest.raises(ValueError):
         assert parse_time("halol")
 
+    with pytest.raises(ValueError, match="Time must be in HH:MM format"):
+        assert parse_time("13:13:13")
+
 def test_parse_measurement_regular_line():
     assert parse_measurement("Köln;14:21;21.7") == ("Köln", 861, 21.7)
 
