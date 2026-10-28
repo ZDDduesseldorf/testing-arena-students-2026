@@ -46,7 +46,10 @@ def test_parse_time_regular_time():
     with pytest.raises(ValueError):
         assert parse_time("12:60")
 
+    with pytest.raises(ValueError):
         assert parse_time("12:-1")
+
+    with pytest.raises(ValueError):
         assert parse_time("12:a")
 
     with pytest.raises(ValueError):
@@ -60,6 +63,12 @@ def test_parse_measurement_regular_line():
 
     with pytest.raises(ValueError):
         assert parse_measurement("Köln;14:21;")
+
+    with pytest.raises(ValueError):
+        assert parse_measurement(";14:21;")
+
+    with pytest.raises(ValueError):
+        parse_measurement(";14:21;")
 
     assert parse_measurement("Köln;23:59;0") == ("Köln", 1439, 0)
 
