@@ -250,3 +250,63 @@ def test_hottest_measurement_no_maximum():
     with pytest.raises(ValueError):
         assert hottest_measurement(measurements) == ("Düsseldorf", 720, 25.0)
 
+
+def test_parse_time_regular_time_leon():
+    assert parse_time("14:21") == 861
+    assert parse_time("00:00") == 0
+    assert parse_time("23:59") == 1439
+    assert parse_time("9:05") == 545
+    assert parse_time("09:05") == 545
+    assert parse_time("9:5") == 545
+    with pytest.raises(ValueError):
+        parse_time("24:00")
+    with pytest.raises(ValueError):
+        parse_time("12:60")
+    with pytest.raises(ValueError):
+        parse_time("12")
+
+
+def test_parse_measurement_regular_line_leon():
+    assert parse_measurement("Köln;14:21;21.7") == ("Köln", 861, 21.7)
+    assert parse_measurement("Köln;00:00;-5.5") == ("Köln", 0, -5.5)
+    with pytest.raises(ValueError):
+        parse_measurement("Köln;14:21")
+    with pytest.raises(ValueError):
+        parse_measurement("Köln;14:21;")
+    with pytest.raises(ValueError):
+        parse_measurement(";14:21;23")
+    assert parse_measurement(" Frankfurt am Main ;14:21;21.7") == ("Frankfurt am Main", 861, 21.7)
+
+
+def test_filter_by_temperature_regular_values_leon():
+    measurements = [
+        ("Köln", 600, 10.0),
+        ("Düsseldorf", 720, 18.5),
+        ("Bonn", 900, 25.0),
+    ]
+
+    assert filter_by_temperature(measurements, 15.0, 20.0) == [
+        ("Düsseldorf", 720, 18.5)
+    ]
+    assert filter_by_temperature(measurements, 20.0, 30.0) == [("Bonn", 900, 25.0)]
+    with pytest.raises(ValueError):
+        filter_by_temperature([], 30.0, 20.0)
+
+
+def test_average_temperature_regular_values_leon():
+    measurements = [
+        ("Köln", 600, 10.0),
+        ("Köln", 720, 20.0),
+    ]
+
+    assert average_temperature(measurements, "Köln") == 15.0
+
+
+def test_hottest_measurement_with_unique_maximum_leon():
+    measurements = [
+        ("Köln", 600, 10.0),
+        ("Düsseldorf", 720, 25.0),
+        ("Bonn", 900, 20.0),
+    ]
+
+    assert hottest_measurement(measurements) == ("Düsseldorf", 720, 25.0)
