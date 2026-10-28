@@ -126,6 +126,16 @@ def test_filter_by_temperature_regular_values_11_and_24():
         ("Düsseldorf", 720, 18.5),
     ]
 
+def test_filter_by_temperature_regular_values_ausgefiltert():
+    measurements = [
+        ("Köln", 600, 10.0),
+        ("Düsseldorf", 720, 18.5),
+        ("Bonn", 900, 25.0),
+    ]
+
+    assert filter_by_temperature(measurements, 26.0, 30.0) == [
+    ]
+
 
 def test_filter_by_temperature_regular_values_24_and_11():
     measurements = [
@@ -138,6 +148,20 @@ def test_filter_by_temperature_regular_values_24_and_11():
         assert filter_by_temperature(measurements, 25.0, 11.0) == [
             ("Düsseldorf", 720, 18.5),
         ]
+
+def test_filter_by_temperature_regular_values_error():
+    measurements = [
+        ("Köln", 600, 10.0),
+        ("Düsseldorf", 720, 18.5),
+        ("Bonn", 900, 25.0),
+    ]
+
+    with pytest.raises(ValueError):
+        assert filter_by_temperature(measurements, 100.0, 20.0) == [
+            ("Düsseldorf", 720, 18.5),
+        ]
+
+
 
 
 def test_average_temperature_regular_values():
@@ -183,3 +207,4 @@ def test_hottest_measurement_with_two_maximum():
     ]
 
     assert hottest_measurement(measurements) == ("Düsseldorf", 720, 25.0)
+
