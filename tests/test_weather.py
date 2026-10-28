@@ -53,6 +53,9 @@ def test_parse_time_regular_time():
         assert parse_time("12:a")
 
     with pytest.raises(ValueError):
+        assert parse_time("a:12")
+
+    with pytest.raises(ValueError):
         assert parse_time("halol")
 
     with pytest.raises(ValueError, match="Time must have HH:MM format"):
@@ -93,6 +96,21 @@ def test_filter_by_temperature_regular_values_10_and_25():
         ("Düsseldorf", 720, 18.5),
         ("Bonn", 900, 25.0),
     ]
+
+    with pytest.raises(ValueError):
+        assert filter_by_temperature(measurements, 10.0, 25.0) == [
+            ("Köln", 600, 10.0),
+            ("Düsseldorf", 720, 18.5),
+            ("Bonn", 900, 25.0),
+        ]
+
+def test_filter_by_temperature_measurement_not_complete():
+    measurements = [
+        ("Köln", 600),
+        ("Düsseldorf", 720),
+        ("Bonn", 900),
+    ]
+
 
     assert filter_by_temperature(measurements, 10.0, 25.0) == [
         ("Köln", 600, 10.0),
