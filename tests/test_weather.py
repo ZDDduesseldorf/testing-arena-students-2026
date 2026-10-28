@@ -22,8 +22,6 @@ def test_parse_time_regular_time():
     assert parse_time("12:00") == 720
     assert parse_time("12:00") != 721
 
-
-
     with pytest.raises(ValueError):
         assert parse_time("0")
 
@@ -42,6 +40,9 @@ def test_parse_time_regular_time():
     with pytest.raises(ValueError):
         assert parse_time("24:00")
 
+    with pytest.raises(ValueError):
+        assert parse_time("halol")
+
 def test_parse_measurement_regular_line():
     assert parse_measurement("Köln;14:21;21.7") == ("Köln", 861, 21.7)
 
@@ -49,6 +50,9 @@ def test_parse_measurement_regular_line():
         assert parse_measurement("Köln;14:21;")
 
     assert parse_measurement("Köln;23:59;0") == ("Köln", 1439, 0)
+
+    with pytest.raises(ValueError):
+        assert parse_measurement(12)
 
 
 def test_filter_by_temperature_regular_values():
