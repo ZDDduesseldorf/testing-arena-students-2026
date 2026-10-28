@@ -178,7 +178,7 @@ def test_average_temperature_one_value():
         ("Köln", 600, 10.0),
     ]
 
-    assert average_temperature(measurements, "Köln") == 600
+    assert average_temperature(measurements, "Köln") == 10
 
 def test_average_temperature_no_values():
     measurements = [
